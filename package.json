@@ -1,0 +1,37 @@
+{
+  "name": "sqprev",
+  "version": "1.0.0",
+  "description": "Project test",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeanclei/sqprev.git"
+  },
+  "keywords": [
+    "sqprev",
+    "Previdência",
+    "Instituidos"
+  ],
+  "author": "sinqiaFln\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Se\u001b[2~\u001b[Di\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/jeanclei/sqprev/issues"
+  },
+  "homepage": "https://github.com/jeanclei/sqprev#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.6.0",
+    "graphql-tools": "^4.0.7",
+    "knex": "^0.20.11",
+    "mongoose": "^5.9.3",
+    "pg": "^7.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
