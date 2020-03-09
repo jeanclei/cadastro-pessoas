@@ -1,22 +1,12 @@
 const resolvers = require('./resolvers')
 const { makeExecutableSchema } = require('graphql-tools')
 
-const PessoaFisicaAtribs = `
-id: ID
-nome: String!
-cpf: String!
-dtnasc: String
-sexo: String!
-nomepai: String
-nomemae: String!
-nomeconjuge: String
-naturalidade: String
-email: String!
-email2: String
-fundador: Boolean
-`
+const PessoaFisicaAtribs = require('./schemas/atribs_pessoafisica')
 
 const typeDefs = `
+
+    scalar Date
+
     type PessoaFisica {
         ${PessoaFisicaAtribs}
     }
