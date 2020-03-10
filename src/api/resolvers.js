@@ -45,14 +45,6 @@ module.exports = {
         }
     },
 
-    // foto_documento: {
-    //     base64: async function (obj, args) {
-    //         let _id = obj.id_base64
-    //         console.log(_id)
-    //         return await dbdocs.findById({_id}) 
-
-    //     }
-    // },
     Document: {
         foto_documento: async function (obj, args) {
             return await dbdocs.findById(obj.id_base64)
