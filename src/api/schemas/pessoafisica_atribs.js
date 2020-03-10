@@ -1,5 +1,4 @@
 const PessoaFisicaAtribs = `
-id: ID
 nome: String!
 cpf: String!
 dtnasc: Date!

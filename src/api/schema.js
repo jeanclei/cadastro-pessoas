@@ -1,28 +1,32 @@
 const resolvers = require('./resolvers')
 const { makeExecutableSchema } = require('graphql-tools')
 
-const PessoaFisicaAtribs = require('./schemas/atribs_pessoafisica')
+const PessoaFisicaSchema = require('./schemas/pessoafisica_schema')
+const DocumentsSchema = require('./schemas/documents_schema')
 
 const typeDefs = `
 
     scalar Date
 
-    type PessoaFisica {
-        ${PessoaFisicaAtribs}
-    }
+    ${PessoaFisicaSchema}
+
+    ${DocumentsSchema}
 
     type Query {
+
         getPessoaFisica(id: ID!): PessoaFisica
         getPessoasFisicas: [PessoaFisica]
-    }
 
-    input PessoaFisicaInput {
-        ${PessoaFisicaAtribs}
-    }
-
+        getDocuments(id_pessoafisica: ID!): [Document]
+    }    
+    
     type Mutation {
+
         createPessoaFisica(input: PessoaFisicaInput): PessoaFisica
+
+        createDocument(input: DocumentInput): [Document]
     }
+
 `
 
 module.exports = makeExecutableSchema({ typeDefs, resolvers })

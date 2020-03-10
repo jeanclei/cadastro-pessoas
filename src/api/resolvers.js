@@ -1,5 +1,6 @@
-const dbpostgre = require('../config/pgdatabase')
+const dbpostgre = require('../config/postgredb')
 const { GraphQLScalarType } = require('graphql')
+const dbdocs = require('../schema_mongodb')
 
 function formatDate(value) {
     return new Date(value).toLocaleDateString(this._locale, {
@@ -31,8 +32,33 @@ module.exports = {
         },
         async getPessoasFisicas() {
             return await dbpostgre('pessoafisica')
+        },
+        async getDocuments(_, { id_pessoafisica }) {
+            //falta fazer o innerJoin com a tabela Tipo_documento para trazer o "desc" do tipo_documento
+            return await dbpostgre('documentos').where({ id_pessoafisica })
         }
     },
+
+    PessoaFisica: {
+        Document: async function (obj, args) {
+            return await dbpostgre('documentos').where({ id_pessoafisica: obj.id })
+        }
+    },
+
+    // foto_documento: {
+    //     base64: async function (obj, args) {
+    //         let _id = obj.id_base64
+    //         console.log(_id)
+    //         return await dbdocs.findById({_id}) 
+
+    //     }
+    // },
+    Document: {
+        foto_documento: async function (obj, args) {
+            return await dbdocs.findById(obj.id_base64)
+        }
+    },
+
     Mutation: {
         async createPessoaFisica(_, { input }) {
             const result = await dbpostgre('pessoafisica').insert({
@@ -51,7 +77,26 @@ module.exports = {
 
             return result[0]
 
+        },
+
+        async createDocument(_, { input }) {
+
+            const { _id } = await dbdocs.create({ base64: input.base64img })
+            if (_id) {
+                await dbpostgre('documentos').insert({
+                    id_pessoafisica: input.id_pessoafisica,
+                    id_tipo_documento: input.id_tipo_documento,
+                    numero: input.numero,
+                    dtemiss: input.dtemiss,
+                    orgaoemiss: input.orgaoemiss,
+                    id_base64: _id.toString()
+                })
+            }
+
+            return await dbpostgre('documentos').where({ id_pessoafisica: input.id_pessoafisica })
+
         }
+
     }
 
 }
