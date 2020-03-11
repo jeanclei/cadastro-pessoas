@@ -35,7 +35,9 @@ module.exports = {
         },
         async getDocuments(_, { id_pessoafisica }) {
             //falta fazer o innerJoin com a tabela Tipo_documento para trazer o "desc" do tipo_documento
-            return await dbpostgre('documentos').where({ id_pessoafisica })
+            return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
+                .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
+                .where({ id_pessoafisica })
         }
     },
 
