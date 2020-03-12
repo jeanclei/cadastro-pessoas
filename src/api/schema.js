@@ -14,8 +14,7 @@ const typeDefs = `
 
     type Query {
 
-        getPessoaFisica(id: ID!): PessoaFisica
-        getPessoasFisicas: [PessoaFisica]
+        getPessoaFisica(id: ID, cpf: String, nome: String): [PessoaFisica]
 
         getDocuments(id_pessoafisica: ID!): [Document]
     }    

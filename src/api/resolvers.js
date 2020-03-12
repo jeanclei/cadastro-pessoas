@@ -13,6 +13,11 @@ function formatDate(value) {
 module.exports = {
 
     Date: new GraphQLScalarType({
+        /*este é o tipo data criado para ser usado em toda a API.
+        Usei conforme documentação encontrada do graphql,
+        não entendi muito bem o 'parseValue', pois ele nunca é chamado
+        Serealize é chamado antes de enviar a data para o client 
+        parseLiteral é chamado quando o dado é recebido pelo cliente*/
         name: 'Date',
         description: 'Date custom scalar type (31/12/1990 1990-12-31)',
         parseValue(value) {
@@ -27,14 +32,10 @@ module.exports = {
     }),
 
     Query: {
-        async getPessoaFisica(_, { id }) {
-            return await dbpostgre('pessoafisica').where({ id }).first()
-        },
-        async getPessoasFisicas() {
-            return await dbpostgre('pessoafisica')
+        async getPessoaFisica(_,  parms) {
+            return await dbpostgre('pessoafisica').where(parms)
         },
         async getDocuments(_, { id_pessoafisica }) {
-            //falta fazer o innerJoin com a tabela Tipo_documento para trazer o "desc" do tipo_documento
             return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
                 .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
                 .where({ id_pessoafisica })
