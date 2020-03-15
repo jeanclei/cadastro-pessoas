@@ -3,20 +3,23 @@ const { makeExecutableSchema } = require('graphql-tools')
 
 const PessoaFisicaSchema = require('./schemas/pessoafisica_schema')
 const DocumentsSchema = require('./schemas/documents_schema')
+const TipoDocumentoSchema = require('./schemas/tipo_documento_schema')
 
 const typeDefs = `
 
     scalar Date
 
     ${PessoaFisicaSchema}
-
     ${DocumentsSchema}
+    ${TipoDocumentoSchema}
 
     type Query {
 
         getPessoaFisica(id: ID, cpf: String, nome: String): [PessoaFisica]
 
         getDocuments(id_pessoafisica: ID!): [Document]
+
+        getTipoDocumento(enable: Boolean): [Tipo_Documento]
     }    
     
     type Mutation {
@@ -24,6 +27,10 @@ const typeDefs = `
         createPessoaFisica(input: PessoaFisicaInput): PessoaFisica
 
         createDocument(input: DocumentInput): [Document]
+
+        createTipoDocumento(input: Tipo_DocumentoInput): [Tipo_Documento]
+
+        updateTipoDocumento(input: Tipo_DocumentoUpdate): [Tipo_Documento]
     }
 
 `

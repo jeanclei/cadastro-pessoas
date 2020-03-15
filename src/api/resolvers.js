@@ -32,13 +32,16 @@ module.exports = {
     }),
 
     Query: {
-        async getPessoaFisica(_,  parms) {
-            return await dbpostgre('pessoafisica').where(parms)
+        async getPessoaFisica(_,  param) {
+            return await dbpostgre('pessoafisica').where(param)
         },
         async getDocuments(_, { id_pessoafisica }) {
             return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
                 .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
                 .where({ id_pessoafisica })
+        },
+        async getTipoDocumento(_, param){
+            return await dbpostgre('tipo_documento').where(param)
         }
     },
 
@@ -90,6 +93,25 @@ module.exports = {
 
             return await dbpostgre('documentos').where({ id_pessoafisica: input.id_pessoafisica })
 
+        },
+
+        async createTipoDocumento(_, {input}){
+            //cria um tipo_documento e retorna a lista de 
+            //todos os tipo_documentos (apenas os habilitados)
+            await dbpostgre('tipo_documento').insert({
+                desc: input.desc,
+                enable: input.enable
+            })
+            return await dbpostgre('tipo_documento').where({enable: true})           
+        },
+        async updateTipoDocumento(_, {input}){
+            //Altera o campo enable e retorna a lista de 
+            //todos os tipo_documentos (apenas os habilitados)
+            await dbpostgre('tipo_documento').update({
+                enable: input.enable
+            }).where({id:input.id})
+            
+            return await dbpostgre('tipo_documento').where({enable: true})
         }
 
     }
