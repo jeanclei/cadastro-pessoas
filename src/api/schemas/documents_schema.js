@@ -10,7 +10,7 @@ type Document {
 }
 
 type foto_documento {
-    CreatedAt: Date
+    CreatedAt: DateTime
     base64: String
 }
 

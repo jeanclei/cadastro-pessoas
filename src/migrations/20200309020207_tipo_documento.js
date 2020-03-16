@@ -2,7 +2,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('tipo_documento', table => {
         table.increments('id').primary()
-        table.string('desc', 20).notNullable()
+        table.string('desc', 50).notNullable()
     })
 };
 

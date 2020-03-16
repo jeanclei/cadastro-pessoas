@@ -8,10 +8,20 @@ const TipoDocumentoSchema = require('./schemas/tipo_documento_schema')
 const typeDefs = `
 
     scalar Date
+    scalar DateTime
+    scalar ScalarJson
 
     ${PessoaFisicaSchema}
     ${DocumentsSchema}
     ${TipoDocumentoSchema}
+
+    type dblog {
+        row: ScalarJson
+        method: String
+        table: String
+        user: String
+        CreatedAt: DateTime
+    }
 
     type Query {
 
@@ -20,6 +30,8 @@ const typeDefs = `
         getDocuments(id_pessoafisica: ID!): [Document]
 
         getTipoDocumento(enable: Boolean): [Tipo_Documento]
+
+        searchLog(table: String!, id: Int!): [dblog]
     }    
     
     type Mutation {
@@ -31,6 +43,8 @@ const typeDefs = `
         createTipoDocumento(input: Tipo_DocumentoInput): [Tipo_Documento]
 
         updateTipoDocumento(input: Tipo_DocumentoUpdate): [Tipo_Documento]
+
+        deleteTipoDocumento(input: Tipo_DocumentoDelete): [Tipo_Documento]
     }
 
 `

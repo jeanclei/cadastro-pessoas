@@ -8,4 +8,4 @@ const docSchema = new mongoose.Schema(
 
 );
 
-module.exports = mongoose.model('DocImgBase64', docSchema);
+module.exports = mongoose.model('base64docs', docSchema);
