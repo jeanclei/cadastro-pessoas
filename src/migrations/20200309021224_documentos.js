@@ -8,6 +8,7 @@ exports.up = function (knex) {
         table.date('dtemiss')
         table.string('orgaoemiss', 10)
         table.string('id_base64').comment('id do documento na tabela do mongodb')
+        table.boolean('deleted').defaultTo(false).notNullable()
     })
 };
 

@@ -16,7 +16,6 @@ input Tipo_DocumentoDelete {
 }
 input Tipo_DocumentoInput {
     desc: String!
-    enable: Boolean!
 }
 `
 
