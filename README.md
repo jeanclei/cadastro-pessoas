@@ -19,3 +19,5 @@ Criadas as tabelas pessoafisica, documentos, tipo_documento usando migrations do
 Adicionado método de gravação de log no banco mongodb, em que irá gravar todos os registros de insert, update, delete que forem feitos no banco postgre. será necessário colocar esta unica linha de código toda vez que for fazer estas operações:
 appLog.create({ row: result[0], method: 'insert', table: 'nome_tabela', user: '' });
 este atributo "row" é o objeto que irá conter todos os atributos do registro que foi inserido, alterado ou deletado.
+
+- Além disso foram feitos os mutations para inserir pessoas, documentos, tipo_documentos, deletar tipo_documento, e querys para os mesmos, query para buscar logs do mongodb pelo nome da tabela e id do registro.
