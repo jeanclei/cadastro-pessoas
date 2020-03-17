@@ -143,8 +143,7 @@ module.exports = {
             //cria um tipo_documento e retorna a lista de 
             //todos os tipo_documentos (apenas os habilitados)
             let result = await dbpostgre('tipo_documento').insert({
-                desc: input.desc,
-                enable: input.enable
+                desc: input.desc
             }, '*')
             //grava log do registro criado
             appLog.create({ row: result[0], method: 'insert', table: 'tipo_documento', user: '' })
