@@ -2,6 +2,7 @@ const dbpostgre = require('../config/postgredb')
 const { GraphQLScalarType } = require('graphql')
 const dbdocs = require('../schema_docs_mongodb')
 const appLog = require('../schema_logs_mongodb')
+const methods = require('./methods')
 
 function formatDate(value) {
     return new Date(value).toLocaleDateString(this._locale, {
@@ -73,7 +74,7 @@ module.exports = {
         async getDocuments(_, { id_pessoafisica }) {
             return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
                 .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
-                .where({ id_pessoafisica })
+                .where({ id_pessoafisica }).andWhere({deleted: false})
         },
         async getTipoDocumento(_, param) {
             return await dbpostgre('tipo_documento').where(param)
@@ -98,74 +99,39 @@ module.exports = {
     },
 
     Mutation: {
-        async createPessoaFisica(_, { input }) {
-            let result = await dbpostgre('pessoafisica').insert({
-                nome: input.nome,
-                cpf: input.cpf,
-                dtnasc: input.dtnasc,
-                sexo: input.sexo,
-                nomepai: input.nomepai,
-                nomemae: input.nomemae,
-                nomeconjuge: input.nomeconjuge,
-                naturalidade: input.naturalidade,
-                email: input.email,
-                email2: input.email2,
-                fundador: input.fundador
-            }, '*')
-            //grava log no mongodb do regristro criado
-            appLog.create({ row: result[0], method: 'insert', table: 'pessoafisica', user: '' })
-            return result[0]
-
+        createPessoaFisica(_, { input }) {
+            return methods.insertDB(input, 'pessoafisica')
         },
 
-        async createDocument(_, { input }) {
+        updatePessoaFisica(_, { input }) {
+            return methods.updateDB(input, 'pessoafisica')
+        },
 
-            const { _id } = await dbdocs.create({ base64: input.base64img })
-            if (_id) {
-                let result = await dbpostgre('documentos').insert({
-                    id_pessoafisica: input.id_pessoafisica,
-                    id_tipo_documento: input.id_tipo_documento,
-                    numero: input.numero,
-                    dtemiss: input.dtemiss,
-                    orgaoemiss: input.orgaoemiss,
-                    id_base64: _id.toString()
-                }, '*')
-                //grava log no mongodb do registro criado
-                appLog.create({ row: result[0], method: 'insert', table: 'documentos', user: '' })
-            }
+        createDocument(_, { input }) {
+            return methods.insertDocument(input)
+        },
 
+        async updateDocument(_, { input }) {
+            //pode alterar dados do documento, mas nao pode alterar a imagem
+            //precisando alterar a imagem, tera que marcar como deletada e inserir outro documento            
+            let {id_pessoafisica} = await methods.updateDB(input, 'documentos')
+            //retorna todos os documentos da pessoa depois de fazer a alteração
             return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
-                .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
-                .where({ id_pessoafisica: input.id_pessoafisica })
+            .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
+            .where({ id_pessoafisica }).andWhere({deleted: false})
         },
 
         async createTipoDocumento(_, { input }) {
-            //cria um tipo_documento e retorna a lista de 
-            //todos os tipo_documentos (apenas os habilitados)
-            let result = await dbpostgre('tipo_documento').insert({
-                desc: input.desc
-            }, '*')
-            //grava log do registro criado
-            appLog.create({ row: result[0], method: 'insert', table: 'tipo_documento', user: '' })
+            //cria um tipo_documento mas retorna todos os tipo_documentos habilitados
+            await methods.insertDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         },
         async updateTipoDocumento(_, { input }) {
-            //Altera o campo enable e retorna a lista de 
-            //todos os tipo_documentos (apenas os habilitados)
-            let result = await dbpostgre('tipo_documento').update({
-                enable: input.enable
-            }, '*').where({ id: input.id })
-            //grava log do update
-            appLog.create({ row: result[0], method: 'update', table: 'tipo_documento', user: '' })
-
+            await methods.updateDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         },
         async deleteTipoDocumento(_, { input }) {
-            let result = await dbpostgre('tipo_documento')
-                .delete('*').where({ id: input.id })
-            //grava log do delete
-            appLog.create({ row: result[0], method: 'delete', table: 'tipo_documento', user: '' })
-
+            await methods.deleteDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         }
 

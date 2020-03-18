@@ -13,6 +13,8 @@ mongoose.connect(process.env.MONGODB_STRING,
 })
 
 const app = express()
+app.use(express.json({limit: '5mb'}))
+
 app.use('/api/v1', graphqlHTTP({
     schema,
     graphiql: true

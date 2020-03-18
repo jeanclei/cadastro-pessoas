@@ -38,7 +38,11 @@ const typeDefs = `
 
         createPessoaFisica(input: PessoaFisicaInput): PessoaFisica
 
+        updatePessoaFisica(input: PessoaFisicaUpdate): PessoaFisica
+
         createDocument(input: DocumentInput): [Document]
+
+        updateDocument(input: DocumentUpdate): [Document]
 
         createTipoDocumento(input: Tipo_DocumentoInput): [Tipo_Documento]
 
