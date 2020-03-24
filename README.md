@@ -5,3 +5,7 @@
 - Para gravação de logs e armazenamento de imagens em base64 foi utilizado o banco Mongodb. Ao evoluir o projeto, procure utilizar os métodos insertDB, updateDB, deleteDB, pois estes métodos criam o log automativamente de todas as operações. Estes métodos recebem o nome da tabela, e o objeto a ser gravado e fazem o resto do trabalho. para alterações e deleções o objeto precisa conter o id, para inclusão, o banco irá gerar o id e devolver o objeto gravado no postgre em formato json, passando para o GraphQL.
 - Todas as tabelas criadas precisam que o campo chave primária seja com o nome (id), do tipo serial, para que estes métodos funcionem. Caso contrário, precisará implementar o log de forma isolada.
 - A tabela de documentos grava apenas os dados dos documentos, enquanto a imagem do documento fica no mongodb, sendo que o id do mongodb fica gravado na tabela documentos para ser possível juntar a informação, que no caso o GraphQL já está resolvendo isso com facilidade.
+
+Importante: Para iniciar o projeto, instalar todas as dependências normalmente com npm install, configurar o arquivo .env conforme o arquivo de exemplo, crie um banco mongodb e um postgree para isso, pode usar até esse banco do mongodb Atlas que está no exemplo, mas aconselho criar o seu, é gratis!
+entrar na pasta src, e rodar knex migrate:latest para criar as tabelas no postgree. Para criar novas tabelas, use knex migrate:make (consulte documentação do knex).
+Contribua se possível ;)
