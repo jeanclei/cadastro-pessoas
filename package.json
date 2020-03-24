@@ -1,7 +1,7 @@
 {
-  "name": "sqprev",
+  "name": "Cadastro-Pessoas",
   "version": "1.0.0",
-  "description": "Project test",
+  "description": "Cadastro de Pessoas com Log",
   "main": "./src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,11 +11,11 @@
     "url": "git+https://github.com/jeanclei/sqprev.git"
   },
   "keywords": [
-    "sqprev",
-    "Previdência",
-    "Instituidos"
+    "Cadastro",
+    "Pessoas",
+    "Log_Cadastro"
   ],
-  "author": "sinqiaFln\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Se\u001b[2~\u001b[Di\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+  "author": "Jeanclei",
   "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/jeanclei/sqprev/issues"
