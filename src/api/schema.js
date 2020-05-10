@@ -44,11 +44,11 @@ const typeDefs = `
 
         updateDocument(input: DocumentUpdate): [Document]
 
-        createTipoDocumento(input: Tipo_DocumentoInput): [Tipo_Documento]
+        createTipoDocumento(desc: String!): [Tipo_Documento]
 
-        updateTipoDocumento(input: Tipo_DocumentoUpdate): [Tipo_Documento]
+        updateTipoDocumento(id: ID!, enable: Boolean!): [Tipo_Documento]
 
-        deleteTipoDocumento(input: Tipo_DocumentoDelete): [Tipo_Documento]
+        deleteTipoDocumento(id: ID!): [Tipo_Documento]
     }
 
 `

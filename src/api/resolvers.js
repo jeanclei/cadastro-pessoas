@@ -74,7 +74,7 @@ module.exports = {
         async getDocuments(_, { id_pessoafisica }) {
             return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
                 .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
-                .where({ id_pessoafisica }).andWhere({deleted: false})
+                .where({ id_pessoafisica }).andWhere({ deleted: false })
         },
         async getTipoDocumento(_, param) {
             return await dbpostgre('tipo_documento').where(param)
@@ -114,23 +114,23 @@ module.exports = {
         async updateDocument(_, { input }) {
             //pode alterar dados do documento, mas nao pode alterar a imagem
             //precisando alterar a imagem, tera que marcar como deletada e inserir outro documento            
-            let {id_pessoafisica} = await methods.updateDB(input, 'documentos')
+            let { id_pessoafisica } = await methods.updateDB(input, 'documentos')
             //retorna todos os documentos da pessoa depois de fazer a alteração
             return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
-            .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
-            .where({ id_pessoafisica }).andWhere({deleted: false})
+                .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
+                .where({ id_pessoafisica }).andWhere({ deleted: false })
         },
 
-        async createTipoDocumento(_, { input }) {
+        async createTipoDocumento(_, input) {
             //cria um tipo_documento mas retorna todos os tipo_documentos habilitados
             await methods.insertDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         },
-        async updateTipoDocumento(_, { input }) {
+        async updateTipoDocumento(_, input) {
             await methods.updateDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         },
-        async deleteTipoDocumento(_, { input }) {
+        async deleteTipoDocumento(_, input) {
             await methods.deleteDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         }
