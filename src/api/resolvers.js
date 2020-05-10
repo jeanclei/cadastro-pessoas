@@ -1,4 +1,4 @@
-const dbpostgre = require('../config/postgredb')
+const dbpostgre = require('../../config/postgredb')
 const { GraphQLScalarType } = require('graphql')
 const dbdocs = require('../schema_docs_mongodb')
 const appLog = require('../schema_logs_mongodb')

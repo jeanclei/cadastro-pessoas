@@ -1,11 +1,10 @@
 const express = require('express')
 const graphqlHTTP = require('express-graphql')
-//const { buildSchema } = require('graphql')
-const schema = require('./api/schema')
+const schema = require('./src/api/schema')
 
 const mongoose = require('mongoose');
 require('dotenv/config');
-require('dotenv').config({path: '../.env'});
+//require('dotenv').config({path: '../.env'});
 mongoose.connect(process.env.MONGODB_STRING,
 {
     useNewUrlParser: true,

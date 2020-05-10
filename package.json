@@ -1,8 +1,8 @@
 {
-  "name": "Cadastro-Pessoas",
+  "name": "cadastro_pessoas",
   "version": "1.0.0",
-  "description": "Cadastro de Pessoas com Log",
-  "main": "./src/server.js",
+  "description": "Projeto Template para cadastro de pessoas com dados basicos, documentos e logs",
+  "main": "./server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
