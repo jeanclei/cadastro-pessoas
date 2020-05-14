@@ -38,7 +38,6 @@ input PessoaFisicaInput {
 }
 
 input PessoaFisicaUpdate {
-    id: ID!
     nome: String
     cpf: String
     dtnasc: Date

@@ -38,7 +38,7 @@ const typeDefs = `
 
         createPessoaFisica(input: PessoaFisicaInput): PessoaFisica
 
-        updatePessoaFisica(input: PessoaFisicaUpdate): PessoaFisica
+        updatePessoaFisica(id: ID!, atribs: PessoaFisicaUpdate): PessoaFisica
 
         createDocument(input: DocumentInput): [Document]
 

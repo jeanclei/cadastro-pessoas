@@ -103,8 +103,8 @@ module.exports = {
             return methods.insertDB(input, 'pessoafisica')
         },
 
-        updatePessoaFisica(_, { input }) {
-            return methods.updateDB(input, 'pessoafisica')
+        updatePessoaFisica(_, {id, atribs}) {
+            return methods.updateDB(id, atribs, 'pessoafisica')
         },
 
         createDocument(_, { input }) {
@@ -130,8 +130,8 @@ module.exports = {
             await methods.updateDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         },
-        async deleteTipoDocumento(_, input) {
-            await methods.deleteDB(input, 'tipo_documento')
+        async deleteTipoDocumento(_, {id}) {
+            await methods.deleteDB(id, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         }
 

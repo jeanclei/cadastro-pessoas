@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const logSchema = new mongoose.Schema(
   {
-    row: Object,
+    id: Number,
+    atribs: Object,
     table: String,
     user: String,
     method: String,

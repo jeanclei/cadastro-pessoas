@@ -4,24 +4,25 @@ const appLog = require('../schema_logs_mongodb')
 
 module.exports = {
 
-    async insertDB(input, table) {
-        let result = await dbpostgre(table).insert(input, '*')
+    async insertDB(atribs, table) {
+        let result = await dbpostgre(table).insert(atribs, '*')
+        let { id } = result[0]
         //grava log no mongodb
-        appLog.create({ row: input, method: 'insert', table: table, user: '' })
-        return result[0]
-    },
-    
-    async updateDB(input, table) {
-        let result = await dbpostgre(table).update(input, '*').where({ id: input.id })
-        //grava log no mongodb
-        appLog.create({ row: input, method: 'update', table: table, user: '' })
+        appLog.create({ id, atribs: result[0], table, user: '', method: 'insert' })
         return result[0]
     },
 
-    async deleteDB(input, table) {
-        let result = await dbpostgre(table).delete('*').where({ id: input.id })
+    async updateDB(id, atribs, table) {
+        let result = await dbpostgre(table).update(atribs, '*').where({ id })
         //grava log no mongodb
-        appLog.create({ row: input, method: 'delete', table: table, user: '' })
+        appLog.create({ id, atribs, table, user: '', method: 'update' })
+        return result[0]
+    },
+
+    async deleteDB(id, table) {
+        let result = await dbpostgre(table).delete('*').where({ id })
+        //grava log no mongodb
+        appLog.create({ id, table, user: '', method: 'delete' })
         return result[0]
     },
 
@@ -38,8 +39,9 @@ module.exports = {
                 orgaoemiss: input.orgaoemiss,
                 id_base64: _id.toString()
             }, '*')
+            let {id} = result[0]
             //grava log no mongodb do registro criado
-            appLog.create({ row: result[0], method: 'insert', table: 'documentos', user: '' })
+            appLog.create({ id, atribs: result[0], method: 'insert', table: 'documentos', user: '' })
         }
 
         return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
