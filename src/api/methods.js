@@ -26,26 +26,13 @@ module.exports = {
         return result[0]
     },
 
-    async insertDocument(input) {
-        //nao vai ser possivel usar o metodo insert generico, pois precisa gravar primeiro o base64 do documento no mongo db 
-        //e pegar o _id do mongo pra gravar no postgre junto com os dados do documento.
-        const { _id } = await dbdocs.create({ base64: input.base64img })
-        if (_id) {
-            let result = await dbpostgre('documentos').insert({
-                id_pessoafisica: input.id_pessoafisica,
-                id_tipo_documento: input.id_tipo_documento,
-                numero: input.numero,
-                dtemiss: input.dtemiss,
-                orgaoemiss: input.orgaoemiss,
-                id_base64: _id.toString()
-            }, '*')
-            let {id} = result[0]
-            //grava log no mongodb do registro criado
-            appLog.create({ id, atribs: result[0], method: 'insert', table: 'documentos', user: '' })
+    async insertFotoDocumento(input) {
+        let documento = await dbpostgre.select('*').from('documentos')
+            .where({ id: input.idDocumento }).first()            
+        if (documento) {
+            await dbdocs.create({ idDocumento: input.idDocumento, base64: input.base64 })            
         }
-
-        return await dbpostgre.select('documentos.*', 'tipo_documento.desc').from('documentos')
-            .innerJoin('tipo_documento', 'documentos.id_tipo_documento', 'tipo_documento.id')
-            .where({ id_pessoafisica: input.id_pessoafisica })
+        return documento || new Error('idDocumento nao encontrado')
+        
     }
 }

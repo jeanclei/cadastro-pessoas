@@ -40,7 +40,9 @@ const typeDefs = `
 
         updatePessoaFisica(id: ID!, atribs: PessoaFisicaUpdate): PessoaFisica
 
-        createDocument(input: DocumentInput): [Document]
+        createDocument(input: DocumentInput): Document
+
+        createFotoDocumento(idDocumento: Int!, base64: String!): Document
 
         updateDocument(input: DocumentUpdate): [Document]
 

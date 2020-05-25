@@ -94,7 +94,12 @@ module.exports = {
 
     Document: {
         foto_documento: async function (obj, args) {
-            return await dbdocs.findById(obj.id_base64)
+            return await dbdocs.find({ "idDocumento": obj.id })
+        },
+        desc: async function (obj, args) {
+            let { desc } = await dbpostgre('tipo_documento').select('desc')
+                .where({ id: obj.id_tipo_documento }).first()
+            return desc
         }
     },
 
@@ -103,12 +108,16 @@ module.exports = {
             return methods.insertDB(input, 'pessoafisica')
         },
 
-        updatePessoaFisica(_, {id, atribs}) {
+        updatePessoaFisica(_, { id, atribs }) {
             return methods.updateDB(id, atribs, 'pessoafisica')
         },
 
         createDocument(_, { input }) {
-            return methods.insertDocument(input)
+            return methods.insertDB(input, 'documentos')
+        },
+
+        createFotoDocumento(_, input) {
+            return methods.insertFotoDocumento(input)
         },
 
         async updateDocument(_, { input }) {
@@ -130,7 +139,7 @@ module.exports = {
             await methods.updateDB(input, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         },
-        async deleteTipoDocumento(_, {id}) {
+        async deleteTipoDocumento(_, { id }) {
             await methods.deleteDB(id, 'tipo_documento')
             return await dbpostgre('tipo_documento').where({ enable: true })
         }
